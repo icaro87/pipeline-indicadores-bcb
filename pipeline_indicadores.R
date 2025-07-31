@@ -54,7 +54,7 @@ if (tabela_existe) {
   ultima_data <- dbGetQuery(con, "SELECT MAX(data) FROM indicadores_economicos")[[1]]
   data_inicio <- format(ultima_data + 1, "%d/%m/%Y")
 } else {
-  data_inicio <- "01/01/2020"
+  data_inicio <- "01/01/2024"
 }
 
 data_fim <- format(Sys.Date(), "%d/%m/%Y")
