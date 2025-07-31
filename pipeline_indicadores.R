@@ -15,8 +15,21 @@ buscar_sgs <- function(codigo_serie, data_inicio, data_fim) {
     codigo_serie,
     "/dados?formato=json&dataInicial=", data_inicio, "&dataFinal=", data_fim
   )
-  resposta <- GET(url)
-  dados <- fromJSON(content(resposta, "text", encoding = "UTF-8"))
+  resposta <- tryCatch({
+    GET(url)
+  }, error = function(e) return(NULL))
+  
+  if (is.null(resposta) || resposta$status_code != 200) {
+    return(tibble::tibble(data = as.Date(NA), valor = NA_real_))
+  }
+  
+  dados <- tryCatch({
+    fromJSON(content(resposta, "text", encoding = "UTF-8"))
+  }, error = function(e) return(tibble::tibble(data = as.Date(NA), valor = NA_real_)))
+  
+  if (length(dados) == 0 || nrow(dados) == 0) {
+    return(tibble::tibble(data = as.Date(NA), valor = NA_real_))
+  }
   
   dados %>%
     mutate(data = dmy(data),
