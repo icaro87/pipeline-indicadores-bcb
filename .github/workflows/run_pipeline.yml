@@ -18,7 +18,7 @@ jobs:
 
       - name: Install R packages
         run: |
-          Rscript -e 'install.packages(c("httr", "jsonlite", "dplyr", "lubridate", "DBI", "RPostgres", "tidyr"))'
+          Rscript -e 'install.packages(c("httr", "jsonlite", "dplyr", "lubridate", "DBI", "RPostgres", "tidyr"), dependencies = TRUE)'
 
       - name: Run R pipeline
         env:
